@@ -98,7 +98,7 @@ public class CafeItem {
     }
     public void setAmount(int newAmount) throws CafeItemExceptiom {
       if (newAmount >= 1) {
-        this.Amount = newAmount;
+        this.amount = newAmount;
       }
       else {
         throw new CafeItemException("ERROR! Sorry but " + newAmount + " should be a positive numerical value above 0.");
@@ -109,7 +109,7 @@ public class CafeItem {
             throw new CafeItemException("Recipe cannot be null.");
         }
         else {
-          this.recipe = recipe;
+          this.recipe = newRecipe;
         }
     }
   }
