@@ -96,6 +96,7 @@ public class CafeItem {
     else {
       throw new CafeItemException("ERROR! Sorry but " + newSize + " is an invalid size option.");
     }
+  }
     public void setAmount(int newAmount) throws CafeItemExceptiom {
       if (newAmount >= 1) {
         this.amount = newAmount;
@@ -104,7 +105,7 @@ public class CafeItem {
         throw new CafeItemException("ERROR! Sorry but " + newAmount + " should be a positive numerical value above 0.");
       }
     }
-    public void setRecipe(Recipe recipe) throws CafeItemException{
+    public void setRecipe(Recipe recipe) throws CafeItemException {
         if (recipe == null) {
             throw new CafeItemException("Recipe cannot be null.");
         }
@@ -113,4 +114,3 @@ public class CafeItem {
         }
     }
   }
-}
