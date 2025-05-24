@@ -10,10 +10,10 @@
 
 public class Recipe {
   /** Instance Variables */
-  private List<String> ingredients = "";
+  private List<String> ingredients = new ArrayList<>();
   private int preparationTime = 0;
   private String temperature = "";
-  private List<String> steps = "";
+  private List<String> steps = new ArrayList<>();
 
   /**
     * constructor to create a Recipe
