@@ -23,6 +23,7 @@ public class Order {
   private Customer customer;
   private List<CafeItem> drinks = new ArrayList<>();
   private LocalDateTime orderTime;
+  private LocalDateTime lastUpdated;
   private OrderStatus status;
   private Map<CafeItem, List<String>> customizations = new HashMap<>();
   
@@ -41,6 +42,7 @@ public class Order {
     this.setCustomer(customer);
     this.setDrinks(drinks);
     this.setOrderTime(LocalDateTime.now());
+    this.setLastUpdated(LocalDateTime.now());
     this.setStatus(status);
   }
 
@@ -55,7 +57,8 @@ public class Order {
       String output = "";
       output += "\tOrder ID: " + this.orderID;     
       output += "\n\tCustomer: " + (customer != null ? customer.getName() : "Unknown");
-      output += "\n\tOrder Time: " + this.orderTime;     
+      output += "\n\tOrder Time: " + this.orderTime;
+      output += "\n\tLast Updated: " + this.lastUpdated;
       output += "\n\tDrinks: " + this.drinks;
       output += "\n\tStatus: " + this.status;     
            
@@ -77,6 +80,9 @@ public class Order {
   
   public LocalDateTime getOrderTime() {
       return this.orderTime;
+  }
+  public LocalDateTime getLastUpdated() {
+      return this.lastUpdated;
   }
   
   public OrderStatus getStatus() {
@@ -107,7 +113,7 @@ public class Order {
   }
 
   public void setDrinks(List<CafeItem> newDrinks) throws OrderException {
-      if (drinks == null || newDrinks.isEmpty()) {
+      if (newDrinks == null || newDrinks.isEmpty()) {
           throw new OrderException("Drinks list cannot be empty.");
       }
       else {
@@ -146,6 +152,25 @@ public class Order {
     }
   }
 
+  public void updateStatusEvents(String newEvent) throws OrderException {
+    if (newEvent == null || newEvent.trim().isEmpty()) {
+      throw new OrderException("Event type cannot be null or empty.");
+    }
+    switch (newEvent.toLowerCase()) {
+      case "prepared":
+        this.status = OrderStatus.IN_PROGRESS;
+        break;
+      case "picked_up":
+        this.status = OrderStatus.COMPLETED;
+        break;
+      case "canceled":
+        this.status = OrderStatus.CANCELED;
+        break;
+      default:
+        throw new OrderException("ERROR! Invalid event type: " + newEvent);
+    }
+    this.lastUpdated = LocalDateTime.now();
+  }
   public void setCustomizations(Map<CafeItem, List<String>> newCustomizations) throws OrderException {
       if (newCustomizations == null) {
           throw new OrderException("Customizations map cannot be null.");
