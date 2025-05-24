@@ -28,7 +28,7 @@ public class CafeItem {
     * @exception  CafeItemException   amount must be between 0 - 15
     */
 
-  public CafeItemException(String name, double cost, String size, int amount) throws CafeItemException {
+  public CafeItem(String name, double cost, String size, int amount) throws CafeItemException {
     this.setName(name);
     this.setCost(cost);
     this.setSize(size);
