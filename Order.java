@@ -48,47 +48,93 @@ public class Order {
    // toString method
    public String toString() {
       String output = "";
-      output += "\tName: " + this.name; // Adds the customer's name to output
-      output += "\n\tOrder History: " + this.orderHistory; // Adds the list of the drinks the cutsomers purchase to the output
-      output += "\n\tPreferred Drinks: " + this.preferredDrinks; // Adds the list of preferred drinks to the output
+      output += "\tOrder ID: " + this.orderID;     
+      output += "\n\tCustomer: " + (customer != null ? customer.getName() : "Unknown");
+      output += "\n\tOrder Time: " + this.orderTime;     
+      output += "\n\tDrinks: " + this.drinks;
+      output += "\n\tStatus: " + this.status;
+     
            
       return output;
    }
   
   /** Accessor/get methods */
-  public String getName() {
-    return this.name;
+  public int getOrderID() {
+      return thisorderID;
   }
-  public List<Order> getOrderHistory() {
-    return this.orderHistory;
+  
+  public Customer getCustomer() {
+      return this.customer;
   }
-  public List<CafeItem> getPreferredDrinks() {
-    return this.preferredDrinks;
+  
+  public List<CafeItem> getDrinks() {
+      return this.drinks;
+  }
+  
+  public LocalDateTime getOrderTime() {
+      return this.orderTime;
+  }
+  
+  public String getStatus() {
+      return this.status;
+  }
+  
+  public Map<CafeItem, List<String>> getCustomizations() {
+      return this.customizations;
   }
 
   /** Mutator/set methods */
-  public void setName(String newName) throws CustomerException {
-    if (name >= 2) {
-      this.name = newName;
+  public void setOrderID(int newOrderID) throws OrderException {
+    if (newOrderID >= 10000 && newOrderID <= 99999) {
+      this.orderID = newOrderID;
     }
     else {
-        throw new CustomerException("ERROR! Sorry but customer's name must be at least 2 characters long.");
+        throw new OrderException("ERROR! Sorry but " + newOrderID + " must be a positive 5-digit long number.");
     }
   }
-  public void setOrderHistory(List<Order> newOrderHistory) throws CustomerException {
-    if (orderHistory == null) {
-      throw new CustomerException("Order history cannot be null.");
-    }
-    else {
-      this.orderHistory = new ArrayList<>(orderHistory);
-    }
-  }
-    public void setPreferredDrinks(List<CafeItem> newPreferredDrinks) throws CustomerException {
-       if (drinks == null || drinks.isEmpty()) {
-            throw new IllegalArgumentException("Preferred drinks list cannot be empty.");
-        }
-      else {
-        this.preferredDrinks = new ArrayList<>(drinks);
+  
+  public void setCustomer(Customer customer) throws OrderException {
+      if (customer == null) {
+          throw new OrderException("Customer cannot be null.");
       }
+    else {
+      this.customer = customer;
     }
   }
+
+  public void setDrinks(List<CafeItem> drinks) throws OrderException {
+      if (drinks == null || drinks.isEmpty()) {
+          throw new OrderException("Drinks list cannot be empty.");
+      }
+      else {
+        this.drinks = new ArrayList<>(drinks);
+      }
+  }
+
+  public void setOrderTime(LocalDateTime orderTime) throws OrderException {
+      if (orderTime == null) {
+          throw new OrderException("Order time cannot be null.");
+      }
+      else {
+        this.orderTime = orderTime;
+      }
+  }
+
+  public void setStatus(String status) {
+      if (status == null || status.trim().isEmpty()) {
+          throw new OrderException("Order status cannot be empty.");
+      }
+      else {
+        this.status = status;
+      }
+  }
+
+  public void setCustomizations(Map<CafeItem, List<String>> customizations) {
+      if (customizations == null) {
+          throw new IllegalArgumentException("Customizations map cannot be null.");
+      }
+      else {
+        this.customizations = new HashMap<>(customizations);
+      }
+  }
+}
