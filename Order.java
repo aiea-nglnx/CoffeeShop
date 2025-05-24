@@ -4,6 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/** OrderStatus enum **/
+public enum OrderStatus {
+  PENDING, COMPLETED, CANCELED, IN_PROGRESS
+}
+
 /**
  * A class to represent the customers
  * Characteristics:
@@ -18,7 +23,7 @@ public class Order {
   private Customer customer;
   private List<CafeItem> drinks = new ArrayList<>();
   private LocalDateTime orderTime;
-  private String status = "";
+  private OrderStatus status;
   private Map<CafeItem, List<String>> customizations = new HashMap<>();
   
 
@@ -31,7 +36,7 @@ public class Order {
     * @exception
     */
 
-  public Order(int orderID, Customer customer, List<CafeItem> drinks, String status) throws OrderException {
+  public Order(int orderID, Customer customer, List<CafeItem> drinks, OrderStatus status) throws OrderException {
     this.setOrderID(orderID);
     this.setCustomer(customer);
     this.setDrinks(drinks);
@@ -52,15 +57,14 @@ public class Order {
       output += "\n\tCustomer: " + (customer != null ? customer.getName() : "Unknown");
       output += "\n\tOrder Time: " + this.orderTime;     
       output += "\n\tDrinks: " + this.drinks;
-      output += "\n\tStatus: " + this.status;
-     
+      output += "\n\tStatus: " + this.status;     
            
       return output;
    }
   
   /** Accessor/get methods */
   public int getOrderID() {
-      return thisorderID;
+      return this.orderID;
   }
   
   public Customer getCustomer() {
@@ -75,7 +79,7 @@ public class Order {
       return this.orderTime;
   }
   
-  public String getStatus() {
+  public OrderStatus getStatus() {
       return this.status;
   }
   
@@ -98,43 +102,56 @@ public class Order {
           throw new OrderException("Customer cannot be null.");
       }
     else {
-      this.customer = customer;
+      this.customer = newCustomer;
     }
   }
 
-  public void setDrinks(List<CafeItem> drinks) throws OrderException {
-      if (drinks == null || drinks.isEmpty()) {
+  public void setDrinks(List<CafeItem> newDrinks) throws OrderException {
+      if (drinks == null || newDrinks.isEmpty()) {
           throw new OrderException("Drinks list cannot be empty.");
       }
       else {
-        this.drinks = new ArrayList<>(drinks);
+        this.drinks = new ArrayList<>(newDrinks);
       }
   }
 
-  public void setOrderTime(LocalDateTime orderTime) throws OrderException {
-      if (orderTime == null) {
+  public void setOrderTime(LocalDateTime newOrderTime) throws OrderException {
+      if (newOrderTime == null) {
           throw new OrderException("Order time cannot be null.");
       }
       else {
-        this.orderTime = orderTime;
+        this.orderTime = newOrderTime;
       }
   }
 
-  public void setStatus(String status) {
-      if (status == null || status.trim().isEmpty()) {
+  public void setStatus(OrderStatus newStatus) throws OrderException {
+      if (newStatus == null) {
           throw new OrderException("Order status cannot be empty.");
       }
       else {
-        this.status = status;
+        this.status = newStatus;
       }
   }
 
-  public void setCustomizations(Map<CafeItem, List<String>> customizations) {
-      if (customizations == null) {
-          throw new IllegalArgumentException("Customizations map cannot be null.");
+  public void updateStatus(OrderStatus newStatus) throws OrderException {
+    if (newStatus == null) {
+      throw new OrderException("Order status cannot be null.");
+    }
+    else if (this.status == OrderStatus.COMPLETED) {
+      throw new OrderException("Cannot update a completed order.");
+    }
+    else {
+      this.status = newStatus;
+      this.lastUpdated = LocalDateTime.now(); // Track status change time
+    }
+  }
+
+  public void setCustomizations(Map<CafeItem, List<String>> newCustomizations) throws OrderException {
+      if (newCustomizations == null) {
+          throw new OrderException("Customizations map cannot be null.");
       }
       else {
-        this.customizations = new HashMap<>(customizations);
+        this.customizations = new HashMap<>(newCustomizations);
       }
   }
 }
