@@ -14,6 +14,7 @@ public class CafeItem {
   private double cost = 0.0;
   private String size = "";
   private int amount = -1;
+  private Recipe recipe; // Reference variable for Recipe class
 
   /**
     * constructor to create a VMItem
@@ -22,17 +23,19 @@ public class CafeItem {
     * @param      cost              cost of item (example:  2.95)
     * @param      size              size of drink (example: small, medium, large)
     * @param      amount            number available for purchase (example: 10)
+    * @param      recipe            recipe for drink
     * @exception  CafeItemException   name must be at least 2 characters
     * @exception  CafeItemException   cost must be at least $1.00
     * @exception  CafeItemException   type must be either small, medium, or large
     * @exception  CafeItemException   amount must be between 0 - 15
     */
 
-  public CafeItem(String name, double cost, String size, int amount) throws CafeItemException {
+  public CafeItem(String name, double cost, String size, int amount, Recipe recipe) throws CafeItemException {
     this.setName(name);
     this.setCost(cost);
     this.setSize(size);
-    this.setAmount(amount);  
+    this.setAmount(amount);
+    this.setRecipe(recipe);
   }
 
 
@@ -48,6 +51,7 @@ public class CafeItem {
       output += "\n\tCost: " + this.cost; // Adds the cost of the drink to output
       output += "\n\tSize: " + this.size; // Adds the size of the drink to the output
       output += "\n\tQuantity: " + this.amount; // Adds the amount of drinks purchased
+      output += "\n\tRecipe: " + this.recipe;
            
       return output;
    }
@@ -63,6 +67,9 @@ public class CafeItem {
   }
   public int getAmount() {
     return this.Amount;
+  }
+  public Recipe getRecipe() {
+    return this.recipe;
   }
 
   /** Mutator/set methods */
@@ -96,6 +103,14 @@ public class CafeItem {
       else {
         throw new CafeItemException("ERROR! Sorry but " + newAmount + " should be a positive numerical value above 0.");
       }
+    }
+    public void setRecipe(Recipe recipe) throws CafeItemException{
+        if (recipe == null) {
+            throw new CafeItemException("Recipe cannot be null.");
+        }
+        else {
+          this.recipe = recipe;
+        }
     }
   }
 }
