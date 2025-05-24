@@ -3,8 +3,8 @@
  * Characteristics:
  *    Name: name of item for sale (example: Oreos)
  *    Cost: cost of item (ex. 2.95)
- *    Type: type of drink (example: latte, americano)
- *    Flavor: what flavor of drink/coffee
+ *    Size
+ *    Recipe reference
  *    Amount: amount of drinks they want to purchase (example: 2)
  */
 
