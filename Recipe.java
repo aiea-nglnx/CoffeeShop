@@ -25,7 +25,7 @@ public class Recipe {
     * @exception
     */
 
-  public Recipe(List<String> ingredients, int preparationTime, String temperature, List<String> steps) throws CafeItemException {
+  public Recipe(List<String> ingredients, int preparationTime, String temperature, List<String> steps) throws RecipeException {
     this.setIngredients(ingredients);
     this.setPreparationTime(preparationTime);
     this.setTemperature(temperature);
@@ -63,34 +63,36 @@ public class Recipe {
   }
 
   /** Mutator/set methods */
-  public void setIngredients(List<String> newIngredients) throws CafeItemException {
+  public void setIngredients(List<String> newIngredients) throws RecipeException {
     if (ingredients == null || ingredients.isEmpty()) {
-      throw new CafeItemException("Ingredients cannot be empty.");
+      throw new RecipeException("Ingredients cannot be empty.");
     }
     else {
         this.ingredients = new ArrayList<>(ingredients);
     }
   }
-  public void setPreparationTime(int newPreparationTime) throws CafeItemException {
+  public void setPreparationTime(int newPreparationTime) throws recipeException {
     if (time > 0) {
       this.preparationTime = newPreparationTime;
     }
     else {
-     throw new CafeItemExcpetion("ERROR! Sorry but time must be a positive numerical value.");
+     throw new RecipeExcpetion("ERROR! Sorry but time must be a positive numerical value.");
     }
   }
-  public void setTemperature(String newTemperature) throws CafeItemException {
+  public void setTemperature(String newTemperature) throws RecipeException {
     if (newTemperature.equals("hot") || newTemperature.equals("cold/iced")) {
       this.temperature = newTemperature;
     }
     else {
-      throw new CafeItemException("ERROR! Sorry but " + newTemperature + " is an invalid temperature option.");
-    }
-    public void setSteps(List<String> newSteps) throws CafeItemException {
-        if (steps == null || steps.isEmpty()) {
-            throw new CafeItemException("Steps cannot be empty.");
-        }
-        this.steps = new ArrayList<>(steps);
+      throw new RecipeException("ERROR! Sorry but " + newTemperature + " is an invalid temperature option.");
     }
   }
-}
+    public void setSteps(List<String> newSteps) throws RecipeException {
+        if (steps == null || steps.isEmpty()) {
+            throw new RecipeException("Steps cannot be empty.");
+        }
+        else {
+          this.steps = new ArrayList<>(steps);
+        }
+    }
+  }
